@@ -77,7 +77,6 @@ void free_memory(){
 
 void main(){
     int option;
-
     do{
         printf("1_Load a new graphics card\n");
         printf("2_Show all graphic cards\n");
