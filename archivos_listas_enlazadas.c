@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define EXIT 3
-
+#define MAX_NAME 30
+#define LOAD 1
+#define SHOW 2
 
 typedef struct video_cards{
-    char Name[30];
+    char Name[MAX_NAME];
     int Cuda_Cores;
     float Freq;
     int Vram;
@@ -17,7 +19,7 @@ video_cards_t *nvda_cards = NULL;
 void print_card(video_cards_t card){
     printf("Name: %s\n", card.Name);
     printf("Cuda_Cores: %d\n", card.Cuda_Cores);
-    printf("Max_Frequency: %f\n", card.Freq);
+    printf("Max_Frequency in MHz: %f\n", card.Freq);
     printf("Vram: %d\n", card.Vram);
 
     printf("************************\n");
@@ -34,10 +36,14 @@ void show_list(){
 }
 
 
-void save_card(){
+void save_card(video_cards_t *card){
     FILE *f;
     f = fopen("List.txt", "a+");
-    fputs(nvda_cards, f);
+
+    fprintf(f, "Name: %s", card->Name);
+    fprintf(f, "\nCuda Cores: %d", card->Cuda_Cores);
+    fprintf(f, "\nMax_Frequency: %f", card->Freq);
+    fprintf(f, "\nVram: %d\n\n********************************\n", card->Vram);
     fclose(f);
 }
 
@@ -66,6 +72,7 @@ void load_card(){
     }
     else{
         get_data(card_aux);
+        save_card(card_aux);
         card_aux->next=nvda_cards;
         nvda_cards=card_aux;
     }
@@ -91,11 +98,10 @@ void main(){
         printf("3_Exit\n");
 
         scanf("%d",&option);
-        if(option == 1){
+        if(option == LOAD){
             load_card();
-            save_card();
         }
-        if(option == 2)show_list();
+        if(option == SHOW)show_list();
 
     }while(option != EXIT);
     free_memory();
