@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define EXIT 3
+#define MAX_NAME 30
+#define LOAD 1
+#define SHOW 2
 
 
 typedef struct video_cards{
-    char Name[30];
+    char Name[MAX_NAME];
     int Cuda_Cores;
     float Freq;
     int Vram;
